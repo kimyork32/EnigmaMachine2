@@ -1,31 +1,41 @@
 #include "funcionar.h"
 #include "Enigma.h"
-Funcionar::Funcionar(int agrc_, char** agrv_){
-    agrc = agrc_;
-    agrv = agrv_;
+Funcionar::Funcionar(){}
+
+void Funcionar::encriptar(Enigma& enigma, ifstream texto, std::ofstream textoEncriptado){
+  if (!texto.is_open() || !textoEncriptado.is_open()) {
+      std::cerr << "Error al abrir uno de los archivos" << std::endl;
+      return;
+  }
+  char letra;
+  while (texto >> letra) {
+      if (letra - 'A' < 0 || LONGITUD_ALFABETO - 1 < letra - 'A') {
+          std::cerr << letra << "Los caracteres de entrada deben ser letras en mayúsculas de la A a la Z" << std::endl;
+          return;
+      }
+      enigma.cifrarMensaje(letra);
+      textoEncriptado << letra;
+  }
+
+  texto.close();
+  textoEncriptado.close();
 }
 
-void Funcionar::encriptar(){
-    
-}
+void Funcionar::desencriptar(Enigma& enigma, std::ifstream textoEncriptado, std::ofstream textoDesencriptado){
+  if (!textoEncriptado.is_open() || !textoDesencriptado.is_open()) {
+      std::cerr << "Error al abrir uno de los archivos" << std::endl;
+      return;
+  }
+  char letra;
+  while (textoEncriptado >> letra) {
+      if (letra - 'A' < 0 || LONGITUD_ALFABETO - 1 < letra - 'A') {
+          std::cerr << letra << "Los caracteres de entrada deben ser letras en mayúsculas de la A a la Z" << std::endl;
+          return;
+      }
+      enigma.cifrarMensaje(letra);
+      textoDesencriptado << letra;
+  }
 
-void Menu::encriptar(Enigma& enigmaEncriptacion){
-    Enigma enigmaEncriptacion = new Enigma(argc, argv);
-    char letra;
-    while(!cin.eof()){
-        cin >> letra;
-        if(cin.fail()){
-          break;
-        }
-        if(letra - 'A' < 0 || LONGITUD_ALFABETO -1 < letra - 'A'){
-          cerr << letra << "Los caracteres de entrada deben ser letras en mayusculas de la A a la Z" << endl;
-          delete enigmaEncriptacion;
-          delete enigmaDesencriptacion;
-          return CARACTER_DE_ENTRADA_INVALIDO;
-        }
-        enigmaEncriptacion->cifrarMensaje(letra);
-        cout << letra;
-    }
-    delete enigmaEncriptacion;
-    return SIN_ERROR;
+  textoEncriptado.close();
+  textoDesencriptado.close();
 }
