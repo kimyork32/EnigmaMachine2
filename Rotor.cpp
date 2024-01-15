@@ -3,9 +3,8 @@
 #include <iostream>
 #include <fstream>
 
-using namespace std;
 
-Rotor::Rotor(const char* ruta, int posicion_inicial){
+Rotor::Rotor(string ruta, int posicion_inicial){
   fstream flujo_entrada;
   flujo_entrada.open(ruta);
   int num;

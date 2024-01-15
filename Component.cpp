@@ -1,10 +1,7 @@
 #include "Component.h"
-#include <iostream>
 #include <fstream>
 
-using namespace std;
-
-Component::Component(const char* ruta) {
+Component::Component(string ruta) {
   fstream flujo_entrada;
   flujo_entrada.open(ruta);
   int num;

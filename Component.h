@@ -1,15 +1,18 @@
-#ifndef SUBCOMPONENT_H
-#define SUBCOMPONENT_H
-
+#ifndef COMPONENT_H
+#define COMPONENT_H
+#include <string>
 #include <vector>
+#include <iostream>
+
+using namespace std;
 
 class Component {
 private:
-  std::vector<int> par_entrada1_;
-  std::vector<int> par_entrada2_;
+  vector<int> par_entrada1_;
+  vector<int> par_entrada2_;
 
 public:
-  Component(const char* ruta);
+  Component(string ruta);
   int mapear(int entrada);
 };
 

@@ -6,21 +6,19 @@
 #include "errores.h"
 #include "funcionar.h"
 #include <iostream>
+#include <fstream>
 #include <cstring>
 #include <string>
 
 class Menu{
 private:
     char letra;
-    Enigma enigmaDesencriptacion;
-    Enigma enigmaEncriptacion;
+    Enigma maquinaEncriptar;
+    Enigma maquinaDesencriptar;
     Funcionar work;
-    std::string texto;
-    std::string textoEncriptado;
-    std::string textoDesencriptado;
+
 public:
-    Menu(Enigma& enigmaEncriptacion, Enigma& enigmaDesencriptacion, Funcionar& work, 
-    std::string texto, std::string textoEncriptado, std::string textoDesencriptado);
+    Menu();
     void menu();
     void clearScreen();
     void waitForEnter();

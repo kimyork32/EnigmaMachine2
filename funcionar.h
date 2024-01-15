@@ -7,10 +7,13 @@
 #include <iostream>
 class Funcionar{
 private:
-    char letra;
+    string oracion;
 public:
     Funcionar();
-    void encriptar(Enigma& enigma, std::ifstream texto, std::ofstream textoEncriptado);
-    void desencriptar(Enigma& enigma, std::ifstream textoEncriptado, std::ofstream textoDesencriptado);
+    void encriptar(Enigma& enigma, string ruta);
+    void borrarOracion();
+    void MostrarContenidoText(string ruta);
+    string getOracion();
+    
 };
 #endif

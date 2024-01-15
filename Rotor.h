@@ -2,6 +2,7 @@
 #define ROTOR_H
 
 #include "Alfabeto.h"  
+#include <string>
 #include <vector>
 
 using namespace std;
@@ -14,7 +15,7 @@ private:
   vector<int> muescas_;
 
 public:
-  Rotor(const char* ruta, int posicion_inicial);
+  Rotor(string ruta, int posicion_inicial);
   
   int obtenerPosicionActual();
 

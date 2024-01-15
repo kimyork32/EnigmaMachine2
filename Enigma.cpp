@@ -6,16 +6,23 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
-Enigma::Enigma(int argc, char** argv){
+Enigma::Enigma(int argc, vector<string> argv){
+  configuraciones = argv;
+  
+  // TABLERO DE ENCHUFES
   vector<int> contactos_tablero_enchufes;
   verificarConfiguracionTableroEnchufes(argv[1], contactos_tablero_enchufes);
   vector<int> contactos_reflector;
+
+  // CONTACTOS DE LOS REFLECTORES
   verificarConfiguracionReflector(argv[2], contactos_reflector);
   vector<vector<int>> contactos_rotores_array;
 
+  // ROTORES
   vector<int> contactos_rotores;
   for(int i = 3; i < argc-1; i++){
     verificarConfiguracionRotor(argv[i], contactos_rotores);
@@ -31,14 +38,13 @@ Enigma::Enigma(int argc, char** argv){
   }
   verificarConfiguracionPosicionRotor(argv[argc-1]);
 
-  // All the checking is done at this point, so instantiate each component
-
   tablero_enchufes_ = new Component(argv[1]);
   reflector_ = new Component(argv[2]);
   for(int i = 0; i < num_de_rotores_; i++){
     Rotor rotor(argv[3+i], posiciones_rotores_[i]);
     rotores_.push_back(rotor);
   }
+
 }
 
 Enigma::~Enigma(){
@@ -50,7 +56,7 @@ Enigma::~Enigma(){
     }
 }
 
-bool Enigma::esEntradaTableroEnchufesValida(const char* ruta, fstream& flujo_entrada, \
+bool Enigma::esEntradaTableroEnchufesValida(string ruta, fstream& flujo_entrada, \
   int& numero_indice){
   flujo_entrada >> ws;
   int fin_de_archivo = flujo_entrada.peek();
@@ -72,7 +78,7 @@ bool Enigma::esEntradaTableroEnchufesValida(const char* ruta, fstream& flujo_ent
   return true;
 }
 
-void Enigma::verificarConfiguracionTableroEnchufes(const char* ruta, vector<int>& contactos){
+void Enigma::verificarConfiguracionTableroEnchufes(std::string ruta, vector<int>& contactos){
   int numero_indice_par, numero_indice_impar;
   int contador = 0;
   fstream flujo_entrada;
@@ -110,7 +116,7 @@ void Enigma::verificarConfiguracionTableroEnchufes(const char* ruta, vector<int>
   flujo_entrada.close();
 }
 
-void Enigma::verificarConfiguracionReflector(const char* ruta, vector<int>& contactos){
+void Enigma::verificarConfiguracionReflector(string ruta, vector<int>& contactos){
   int numero;
   int contador = 0;
   fstream flujo_entrada;
@@ -161,7 +167,7 @@ void Enigma::verificarConfiguracionReflector(const char* ruta, vector<int>& cont
   }
 }
 
-void Enigma::verificarConfiguracionRotor(const char* ruta, vector<int>& contactos){
+void Enigma::verificarConfiguracionRotor(string ruta, vector<int>& contactos){
   int numero;
   int contador = 0;
   fstream flujo_entrada;
@@ -203,7 +209,7 @@ void Enigma::verificarConfiguracionRotor(const char* ruta, vector<int>& contacto
   }
 }
 
-void Enigma::verificarConfiguracionPosicionRotor(const char* ruta){
+void Enigma::verificarConfiguracionPosicionRotor(string ruta){
   int num;
   int contador = 0;
   fstream flujo_entrada;
@@ -290,4 +296,8 @@ void Enigma::cifrarMensaje(char& letra){
   }
   indice_actual = tablero_enchufes_->mapear(indice_actual);
   letra = indice_actual + 'A';
+}
+
+vector<string> Enigma::getConfiguraciones(){
+  return configuraciones;
 }
